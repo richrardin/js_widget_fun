@@ -1,0 +1,16 @@
+.popup
+{
+    display: none;
+    position: absolute;
+    background-color: white;
+    z-index:1001;
+    border: 1px solid;
+    border-color: black;
+    -moz-opacity: 1;
+    opacity:1;
+    filter: alpha(opacity=80);
+}
+.ta_line:hover 
+{
+	background-color: Blue;
+}
