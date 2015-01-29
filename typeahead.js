@@ -15,6 +15,7 @@ function getOffset( el ) {
     }
     return { top: _y, left: _x };
 }
+
 // This function removes all children from a node
 //   It is used to empty out a popup list
 function ta_removeChildren( el ) {
@@ -22,6 +23,7 @@ function ta_removeChildren( el ) {
     el.removeChild(el.firstChild);
   }
 }
+
 // This function is called any time the field changes
 // If the field is empty it closes the popup
 // If the field contains a changed value it updates the contents of the popup
@@ -57,9 +59,7 @@ function ta_update(event) {
     handler = ta_field.getAttribute("ta_obj");
 
     var objPtr = window[handler];    
-    //ta_obj = "ta_cust_hander"
 
-    //the_list = ta_cust_hander.ta_list("match");
     the_list = objPtr.ta_list(ta_field.value);
     
     for (x in the_list) {
@@ -77,12 +77,14 @@ function ta_update(event) {
     window.onclick = null;
   }    
 }
+
 // This function is called when a row in the popup is clicked
 function ta_popupClick( event ) {
   newval = event.target.innerHTML;
   ta_field = document.getElementById(event.target.parentNode.getAttribute("pid"));
   ta_field.value = newval;
 }
+
 // This function exists to close the current popup whenever a click is made outside the popup
 // (it also closes it when a click is made inside, but after the selection click is processed)
 function ta_everyClick( event ) {
@@ -94,11 +96,13 @@ function ta_everyClick( event ) {
   }
   return true;
 }
+
 // This function is the listener that closes the popup menu when we exit the field
 function ta_blur(event) {
   var x=document.getElementById("popup_" + event.target.id);
   x.style.display="none";
 }
+
 // This function searches the DOM for all items with a class of "typeahead" and adds them
 function ta_init() {
   // This private function takes the ID of a field and attaches the typeahead listeners to it 
@@ -119,16 +123,25 @@ function ta_init() {
     popup.setAttribute("pid", id); // Parent's id
     popup.style.top = pc.top + x.offsetHeight;
     popup.style.left = pc.left;
+    popup.style.minWidth = x.offsetWidth;
     // Note: The popup is attached to the parent of the text field not the field itself
     // I don't currently know why, but that's what it takes to make it work
     parent.appendChild(popup);
     console.log( "typeahead field: " + id );
   }
 
-
   var ta_eles = document.getElementsByClassName('typeahead');
   for (var i = 0; i < ta_eles.length; ++i) {
     var item = ta_eles[i]; 
     ta_add(item.id);
   }
+}
+
+// These are some utility functions
+function escapeRegExp(string) {
+    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
+
+function replaceAll(string, find, replace) {
+  return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }

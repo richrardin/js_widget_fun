@@ -11,12 +11,14 @@ var ta_cust_hander = {
   ["rich.roberts@consulteams.com", "Rich", "Roberts"],
   ["Otto.octavious@consulteams.com", "Otto", "Octavious"]
   ],
-  ta_list : function(m) {
-    var re = new RegExp(m);
+  ta_list : function(n) {
+    m = escapeRegExp(n);
+    var re = new RegExp("(^|@|\\.)"+m,"gi");
+    console.log(re);
     stra = new Array;
     for (x in this.customer_email_list) {
       str = this.customer_email_list[x][0];
-      if (str.search(m) != -1) {
+      if (str.search(re) != -1) {
         stra.push(str);
       }
     }

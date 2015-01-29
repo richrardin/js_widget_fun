@@ -8,7 +8,7 @@
     border-color: black;
     -moz-opacity: 1;
     opacity:1;
-    filter: alpha(opacity=80);
+    padding: 2px;
 }
 .ta_line:hover 
 {
