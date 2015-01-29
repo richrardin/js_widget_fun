@@ -1,6 +1,7 @@
 
 // This variable contains the id of the open popup menu
 var ta_openPopup = null;
+var dataArrays=new Object();
 
 // This function retuns the absolute location of an element by id
 // It is used to position the popup under the element
@@ -29,6 +30,19 @@ function ta_removeChildren( el ) {
 // If the field contains a changed value it updates the contents of the popup
 // event.target contains the element
 function ta_update(event) {
+  function ta_match(the_list, n) {
+    m = escapeRegExp(n);
+    var re = new RegExp("(^|@|\\.)"+m,"gi");
+    console.log(re);
+    stra = new Array;
+    for (x in the_list) {
+      str = the_list[x][0];
+      if (str.search(re) != -1) {
+        stra.push(str);
+      }
+    }
+    return stra;
+  }
   // This private function adds a line item to the popup menu
   function popup_add(popup, value) {
     //var br = document.createElement("br");    
@@ -60,8 +74,9 @@ function ta_update(event) {
 
     var objPtr = window[handler];    
 
-    the_list = objPtr.ta_list(ta_field.value);
-    
+    //the_list = objPtr.ta_list(ta_field.value);
+    the_list = ta_match(objPtr, ta_field.value);
+
     for (x in the_list) {
       popup_add(popup, the_list[x]);
     }
@@ -83,6 +98,7 @@ function ta_popupClick( event ) {
   newval = event.target.innerHTML;
   ta_field = document.getElementById(event.target.parentNode.getAttribute("pid"));
   ta_field.value = newval;
+  ta_field.focus(); 
 }
 
 // This function exists to close the current popup whenever a click is made outside the popup
@@ -98,6 +114,7 @@ function ta_everyClick( event ) {
 }
 
 // This function is the listener that closes the popup menu when we exit the field
+// NOT USED currently because closing the window on blur eats the menu click
 function ta_blur(event) {
   var x=document.getElementById("popup_" + event.target.id);
   x.style.display="none";
@@ -105,15 +122,16 @@ function ta_blur(event) {
 
 // This function searches the DOM for all items with a class of "typeahead" and adds them
 function ta_init() {
-  // This private function takes the ID of a field and attaches the typeahead listeners to it 
+  // This private function takes the ID of a text field and attaches the typeahead listeners to it 
   function ta_add( id ) {
-    var x=document.getElementById(id);
+  
+    var text_field=document.getElementById(id);
     
-    x.addEventListener("input", ta_update);
+    text_field.addEventListener("input", ta_update);
     
-    pc = getOffset(x);
+    pc = getOffset(text_field);
 
-    var parent = x.parentNode;
+    var parent = text_field.parentNode;
     var pid = "popup_" + id;
     console.log(pid);
     console.log("create our popup");
@@ -121,12 +139,13 @@ function ta_init() {
     popup.setAttribute("class", "popup");
     popup.setAttribute("id", pid); // id of this popup menu (popup_ + parent's id)
     popup.setAttribute("pid", id); // Parent's id
-    popup.style.top = pc.top + x.offsetHeight;
+    popup.style.top = pc.top + text_field.offsetHeight;
     popup.style.left = pc.left;
-    popup.style.minWidth = x.offsetWidth;
+    popup.style.minWidth = text_field.offsetWidth;
     // Note: The popup is attached to the parent of the text field not the field itself
-    // I don't currently know why, but that's what it takes to make it work
     parent.appendChild(popup);
+    
+    // Find the data for this field and store it in our local data collection for use latter
     console.log( "typeahead field: " + id );
   }
 

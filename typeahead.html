@@ -2,36 +2,25 @@
 <link rel="stylesheet" type="text/css" href="typeahead.css">
 <script src="typeahead.js"></script>
 <script>
-var ta_cust_hander = {
-  customer_email_list: [
+
+var customer_email_list = [
   ["mjwatson@yahoo.com","Mary Jane","Watson"],
   ["j@j.com","J. Joana","Jamison"],
   ["p@p.com","Peter","Parker"],
   ["bruce.wayne@gmail.com", "Bruce","Wayne"],
   ["rich.roberts@consulteams.com", "Rich", "Roberts"],
   ["Otto.octavious@consulteams.com", "Otto", "Octavious"]
-  ],
-  ta_list : function(n) {
-    m = escapeRegExp(n);
-    var re = new RegExp("(^|@|\\.)"+m,"gi");
-    console.log(re);
-    stra = new Array;
-    for (x in this.customer_email_list) {
-      str = this.customer_email_list[x][0];
-      if (str.search(re) != -1) {
-        stra.push(str);
-      }
-    }
-    return stra;
-  }
-}
+  ];
+
+var anotherlist = [["one"],["two"],["three"],["four"],["five"]];
 
 </script>
 </head>
 <body>
   Contact email:<br>
-  <input class="typeahead" id="engagement_customer_email" name="engagement[customer_email]" placeholder="Invitee Email" ta_obj="ta_cust_hander" type="text" />
-  <input id="first" type="text"/>
+  <input class="typeahead" id="engagement_customer_email" name="engagement[customer_email]" 
+         placeholder="Invitee Email" ta_obj="customer_email_list" type="text" />
+  <input class="typeahead" ta_obj="anotherlist" id="first" type="text"/>
   <input id="last" type="text"/><br>
   Description:<br>
   <input id="description" type="text"/>
