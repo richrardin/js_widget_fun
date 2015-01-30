@@ -2,6 +2,7 @@
 // This variable contains the id of the open popup menu
 var ta_openPopup = null;
 var dataArrays=new Object();
+var minLen = 1;
 
 // This function retuns the absolute location of an element by id
 // It is used to position the popup under the element
@@ -82,7 +83,7 @@ function ta_update(event) {
     }
    
   }
-  if (the_list.length > 0 && ta_field.value.length > 0) {
+  if (the_list.length > 0 && ta_field.value.length > (minLen-1)) {
     popup.style.display="block";  
     ta_openPopup = pid;
     window.onclick = ta_everyClick;
