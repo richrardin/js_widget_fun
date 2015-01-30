@@ -1,3 +1,12 @@
+// usage of the typeahead widget
+// Add a class name to your text type input field of "typeahead"
+// Create a two dimensional array of data (even if you onlyhave one dimension)
+//   Place your search strings in element 0 of each element.
+//   Such as: var myStrs = [["one"],["two"]]
+//   The principal behind the 2-d array is to allow your page to
+//   store and process other data based upon the pick list if desired
+//   Such as: var myFriends = [["pparker22@yahoo.com","Peter","Parker"],["someguy@somecompany.com", "Some", "Guy"]]
+//   Finally, define the ta_obj="myFriends" attribute on your text box to link the data to the picklist
 
 // This variable contains the id of the open popup menu
 var ta_openPopup = null;
